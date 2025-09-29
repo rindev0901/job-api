@@ -8,6 +8,7 @@ const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    autoSignIn: false,
   },
   // Add other configuration options as needed
 });

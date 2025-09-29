@@ -1,6 +1,12 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { LoginDto, SignUpDto } from './dtos/auth.dto';
 import { AuthService as ExternalAuthService } from '@thallesp/nestjs-better-auth';
+import { APIError } from 'better-auth/api';
+import { CommonException } from '@/exceptions/common.exception';
 
 @Injectable()
 export class AuthService {
@@ -15,15 +21,18 @@ export class AuthService {
         },
       });
     } catch (error) {
-      this.logger.error('Error signing up:', error);
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: 'Error signing up user',
-        },
-        HttpStatus.BAD_REQUEST,
-        { cause: error, description: 'Error signing up user' },
-      );
+      this.logger.error('Error signing up:' + JSON.stringify(error));
+      if (error instanceof APIError) {
+        throw new CommonException(
+          {
+            statusCode: error.statusCode,
+            message: error.message,
+            retCode: error.status,
+          },
+          { cause: error.cause },
+        );
+      }
+      throw new InternalServerErrorException(error);
     }
   }
   async login(loginData: LoginDto) {
@@ -35,14 +44,19 @@ export class AuthService {
       });
     } catch (error) {
       this.logger.error('Error login:' + JSON.stringify(error));
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: 'Error login user',
-        },
-        HttpStatus.BAD_REQUEST,
-        { cause: error, description: 'Error login user' },
-      );
+
+      if (error instanceof APIError) {
+        throw new CommonException(
+          {
+            statusCode: error.statusCode,
+            message: error.message,
+            retCode: error.status,
+          },
+          { cause: error.cause },
+        );
+      }
+
+      throw new InternalServerErrorException(error);
     }
   }
 }
