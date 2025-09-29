@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 class SignUpDto {
   @ApiProperty({ description: 'User full name', example: 'John Doe' })
@@ -17,7 +17,7 @@ class SignUpDto {
   @IsNotEmpty()
   password: string;
 
-  @ApiProperty({ description: 'User profile image URL', required: false })
+  @ApiPropertyOptional({ description: 'User profile image URL' })
   image?: string;
 }
 

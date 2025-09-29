@@ -23,6 +23,11 @@ async function bootstrap() {
     .setTitle('Job API')
     .setDescription('The job API description')
     .setVersion('1.0')
+    .addSecurity('JWT auth', {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    })
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

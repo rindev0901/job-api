@@ -27,7 +27,7 @@ export class AuthService {
           {
             statusCode: error.statusCode,
             message: error.message,
-            retCode: error.status,
+            error: error.status,
           },
           { cause: error.cause },
         );
@@ -50,7 +50,7 @@ export class AuthService {
           {
             statusCode: error.statusCode,
             message: error.message,
-            retCode: error.status,
+            error: error.status,
           },
           { cause: error.cause },
         );

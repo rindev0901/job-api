@@ -5,7 +5,7 @@ type CommonExceptionParams = {
   message: string;
   statusCode: number;
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  retCode: keyof typeof _statusCode | Status | string;
+  error: keyof typeof _statusCode | Status | string;
 };
 
 export class CommonException extends HttpException {
@@ -13,8 +13,8 @@ export class CommonException extends HttpException {
     super(
       {
         statusCode: params.statusCode,
-        error: params.message,
-        retCode: params.retCode,
+        message: params.message,
+        error: params.error,
       },
       params.statusCode,
       options,
