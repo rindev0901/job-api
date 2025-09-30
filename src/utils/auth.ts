@@ -2,6 +2,7 @@ import { db } from '@/drizzle/db';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { openAPI } from 'better-auth/plugins';
+import 'dotenv/config';
 
 const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -12,7 +13,7 @@ const auth = betterAuth({
     autoSignIn: false,
   },
   plugins: [openAPI()],
-  // Add other configuration options as needed
+  basePath: `/api/v${process.env.API_VERSIONING}/auth`,
 });
 
 export { auth };
