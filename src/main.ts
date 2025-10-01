@@ -39,6 +39,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: process.env.API_VERSIONING ?? '1',
   });
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(port, () => {
