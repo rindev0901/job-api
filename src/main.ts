@@ -39,7 +39,10 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: process.env.API_VERSIONING ?? '1',
   });
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:4200', // hoặc mảng nếu nhiều origin
+    credentials: true, // BẮT BUỘC khi dùng cookie / Authorization
+  });
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(port, () => {

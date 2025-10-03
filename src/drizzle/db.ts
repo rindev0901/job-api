@@ -12,3 +12,7 @@ const pool = new Pool({
 });
 
 export const db = drizzle(pool, { schema });
+
+export type Schema = typeof schema;
+
+export type Postgres = ReturnType<typeof drizzle<Schema>>;
